@@ -25,6 +25,7 @@ var numberInEachRow int
 
 func main() {
 	takeInput() // Call take input function
+	processManatees()
 }
 
 /*
@@ -107,6 +108,7 @@ func takeInput() {
 			}
 		}
 	}
+	fmt.Println("Inputted values, input order.")
 	fmt.Println(femaleArray) // Delete later, testing purposes.
 	fmt.Println(maleArray)
 }

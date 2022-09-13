@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 /*
 	Intitalize type Manatee. Manatee consists of the number tattooed on the manatee,
@@ -14,9 +17,13 @@ type Manatee struct {
 	size   int
 }
 
-func (m *Manatee) diplay() {
-	fmt.Println("Number: %s \n Sex: %s \n Age: %s Size: %s", m.number, m.sex,
-		m.age, m.size)
+func processManatees() {
+	femaleArray = sortByAge(femaleArray)
+	maleArray = sortByAge(maleArray)
+	fmt.Println("Sort based on age.")
+	fmt.Println(femaleArray)
+	fmt.Println(maleArray)
+	output()
 }
 
 /* For sorting, each list needs to be sorted based on age of the manatee. From that point
@@ -26,3 +33,23 @@ the same sex and compare the size of that. If possible to swap do so, if not, im
 May need to find permutation in order to find the correct order of manatees to ensure that
 it is in the correct order.
 */
+
+func sortByAge(arr []Manatee) []Manatee {
+	sort.SliceStable(arr[:], func(i, j int) bool {
+		return arr[i].age < arr[j].age
+	})
+	return arr
+}
+
+func output() {
+	for _, value := range femaleArray {
+		fmt.Print(value.number)
+		fmt.Print(" ")
+	}
+	fmt.Print("\n")
+	for _, value := range maleArray {
+		fmt.Print(value.number)
+		fmt.Print(" ")
+	}
+	fmt.Print("\n")
+}
