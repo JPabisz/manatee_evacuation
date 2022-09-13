@@ -43,24 +43,45 @@ func sortByAge(arr []Manatee) []Manatee {
 
 func organizeBasedOnSize() {
 	possible := true // Assume that the manatees can be outputted in an order than fits requirements
-	var femaleOutput []Manatee
-	var maleOutput []Manatee
+	// var femaleOutput []Manatee
+	// var maleOutput []Manatee
 
 	for i := 0; i < numberInEachRow; i++ {
-		if femaleArray[i].size < maleArray[i].size {
-			for _, value := range maleArray {
-				if maleArray[i].age == value.age && maleArray[i].size > value.size {
-
-				}
-			}
+		if !isValidOutput() {
+			fmt.Println(i)
+		} else {
+			break
 		}
 	}
+
+	if !isValidOutput() {
+		possible = false
+	}
+
+	// for i := 0; i < numberInEachRow; i++ {
+	// 	if femaleArray[i].size < maleArray[i].size {
+	// 		for _, value := range maleArray {
+	// 			if maleArray[i].age == value.age && maleArray[i].size > value.size {
+
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	if !possible { // If output is not acheiveable
 		fmt.Println("Impossible")
 	} else {
 		output() // Print output in correct format
 	}
+}
+
+func isValidOutput() bool {
+	for i := 0; i < numberInEachRow; i++ {
+		if femaleArray[i].size < maleArray[i].size {
+			return false
+		}
+	}
+	return true
 }
 
 func output() {
