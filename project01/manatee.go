@@ -18,12 +18,12 @@ type Manatee struct {
 }
 
 func processManatees() {
-	femaleArray = sortByAge(femaleArray)
-	maleArray = sortByAge(maleArray)
+	femaleArray = sortByAge(femaleArray) // Sort array based on age of manatees
+	maleArray = sortByAge(maleArray)     // Sort array based on age of manatees
 	fmt.Println("Sort based on age.")
 	fmt.Println(femaleArray)
 	fmt.Println(maleArray)
-	output()
+	organizeBasedOnSize() // Compute the output and arrange manatees accordingly
 }
 
 /* For sorting, each list needs to be sorted based on age of the manatee. From that point
@@ -39,6 +39,28 @@ func sortByAge(arr []Manatee) []Manatee {
 		return arr[i].age < arr[j].age
 	})
 	return arr
+}
+
+func organizeBasedOnSize() {
+	possible := true // Assume that the manatees can be outputted in an order than fits requirements
+	var femaleOutput []Manatee
+	var maleOutput []Manatee
+
+	for i := 0; i < numberInEachRow; i++ {
+		if femaleArray[i].size < maleArray[i].size {
+			for _, value := range maleArray {
+				if maleArray[i].age == value.age && maleArray[i].size > value.size {
+
+				}
+			}
+		}
+	}
+
+	if !possible { // If output is not acheiveable
+		fmt.Println("Impossible")
+	} else {
+		output() // Print output in correct format
+	}
 }
 
 func output() {
