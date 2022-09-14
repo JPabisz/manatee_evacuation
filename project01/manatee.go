@@ -41,6 +41,22 @@ func sortByAge(arr []Manatee) []Manatee {
 	return arr
 }
 
+// The following function interface lets us sort the array of manatees by age then size.
+// after the Manatees are sorted you just have to check if there is a larger manatee in front of a smaller one.
+/*
+type byAgeFirst []Manatee
+
+func (manatees byAgeFirst) Len() int      { return len(manatees) }
+func (manatees byAgeFirst) Swap(i, j int) { manatees[i], manatees[j] = manatees[j], manatees[i] }
+func (manatees byAgeFirst) Less(i, j int) bool {
+	if manatees[i].age != manatees[j].age {
+		return manatees[i].age < manatees[j].age
+	}
+	return manatees[i].size < manatees[j].size
+}
+*/
+
+
 func organizeBasedOnSize() {
 	possible := true // Assume that the manatees can be outputted in an order than fits requirements
 	// var femaleOutput []Manatee
