@@ -2,8 +2,8 @@
  * Author: Spencer Hirsch, shirsch2020@my.fit.edu
  * Author: James Pabisz, jpabisz2020@my.fit.edu
  * Course: CSE 4250, Fall 2022
- * Project: project tag, short project name
- * Implementation: compiler version
+ * Project: Proj1
+ * Implementation: go version gccgo
  */
 
 package main
@@ -12,20 +12,25 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
 
-// Global variable arrays of type Manatee
-var femaleArray []Manatee
+var femaleArray []Manatee // Global variable arrays of type Manatee
 var maleArray []Manatee
+var numberInEachRow int // Global variable for count of manatees in a row
 
-// Global variable for count of manatees in a row
-var numberInEachRow int
+/*
+	Intitalize type Manatee. Manatee consists of the number tattooed on the manatee,
+	the sex of the manatee, the age of the manatee and the size of the manatee.const
+*/
 
-func main() {
-	takeInput() // Call take input function
-	processManatees()
+type Manatee struct {
+	number int
+	sex    string
+	age    int
+	size   int
 }
 
 /*
@@ -123,6 +128,45 @@ func takeInput() {
 	fmt.Println(maleArray)
 }
 
+func cleanArray(stringArr []string) []int {
+	var intArr []int
+	for i := 0; i < len(stringArr); i++ {
+		intVar, err1 := strconv.Atoi(stringArr[i]) // Convert string to int
+		// var stringAge string
+		if err1 != nil { // If the int throws an error, process that error accordingly and clean the value to be assigned
+			panic(err1)
+			// stringAge = strings.TrimSuffix(stringArr[i], "\n") // Remove suffix from the string.
+			// intVar, err1 := strconv.Atoi(stringAge)            // Convert the string to an int
+			// if err1 != nil {                                   // Ensure that it does not throw an expection error
+			// 	panic(err1)
+			// }
+			// intArr = append(intArr, intVar)
+		} else { // If no problems rise populate variable in object
+			intArr = append(intArr, intVar)
+		}
+	}
+	return intArr
+}
+
+/*
+	Trim function takes the array and cleans up the elements to ensure that there is no newline operand as a suffix.
+*/
+
+func trim(arr []string) []string {
+	var temp []string
+	for i := 0; i < len(arr); i++ {
+		_, err := strconv.Atoi(arr[i])
+		if err != nil {
+			element := strings.Trim(arr[i], "\n")
+			temp = append(temp, element)
+		} else {
+			temp = append(temp, arr[i])
+		}
+	}
+	arr = temp
+	return arr
+}
+
 /*
 Check whether input is valid, by checking to see if all elements in array are of type int. Will fail in the event that there is
 excess whitespace or a letter in the array.
@@ -136,25 +180,6 @@ func isValidInput(arr []string) bool {
 		}
 	}
 	return true
-}
-
-func cleanArray(stringArr []string) []int {
-	var intArr []int
-	for i := 0; i < len(stringArr); i++ {
-		intVar, err1 := strconv.Atoi(stringArr[i]) // Convert string to int
-		var stringAge string
-		if err1 != nil { // If the int throws an error, process that error accordingly and clean the value to be assigned
-			stringAge = strings.TrimSuffix(stringArr[i], "\n") // Remove suffix from the string.
-			intVar, err1 := strconv.Atoi(stringAge)            // Convert the string to an int
-			if err1 != nil {                                   // Ensure that it does not throw an expection error
-				panic(err1)
-			}
-			intArr = append(intArr, intVar)
-		} else { // If no problems rise populate variable in object
-			intArr = append(intArr, intVar)
-		}
-	}
-	return intArr
 }
 
 /*
@@ -180,21 +205,113 @@ func retakeInput() []string {
 	return stringArr
 }
 
-/*
-	Trim function takes the array and cleans up the elements to ensure that there is no newline operand as a suffix.
-*/
+func processManatees() {
+	femaleArray = sortByAge(femaleArray) // Sort array based on age of manatees
+	maleArray = sortByAge(maleArray)     // Sort array based on age of manatees
+	fmt.Println("Sort based on age.")
+	fmt.Println(femaleArray)
+	fmt.Println(maleArray)
 
-func trim(arr []string) []string {
-	var temp []string
-	for i := 0; i < len(arr); i++ {
-		_, err := strconv.Atoi(arr[i])
-		if err != nil {
-			element := strings.Trim(arr[i], "\n")
-			temp = append(temp, element)
-		} else {
-			temp = append(temp, arr[i])
+	// Find manatees of the same age
+	mra := same_ages(maleArray)
+	fra := same_ages(femaleArray)
+	fmt.Print("female: ")
+	fmt.Println(fra)
+	fmt.Print("male: ")
+	fmt.Println(mra)
+	// organizeBasedOnSize() // Compute the output and arrange manatees accordingly
+}
+
+func sortByAge(arr []Manatee) []Manatee {
+	sort.SliceStable(arr[:], func(i, j int) bool {
+		return arr[i].age < arr[j].age
+	})
+	return arr
+}
+
+func contains(val int, arr []int) bool {
+	for _, value := range arr {
+		if value == val {
+			return true
 		}
 	}
-	arr = temp
-	return arr
+	return false
+}
+
+func isValidOutput() bool {
+	for i := 0; i < numberInEachRow; i++ {
+		if femaleArray[i].size <= maleArray[i].size {
+			return false
+		}
+	}
+	return true
+}
+
+func output() {
+	for _, value := range femaleArray {
+		fmt.Print(value.number)
+		fmt.Print(" ")
+	}
+	fmt.Print("\n")
+	for _, value := range maleArray {
+		fmt.Print(value.number)
+		fmt.Print(" ")
+	}
+	fmt.Print("\n")
+}
+
+func organizeBasedOnSize() {
+	for i := 0; i < numberInEachRow; i++ {
+		if !isValidOutput() {
+			fmt.Println(i)
+		} else {
+			break
+		}
+	}
+
+	if !isValidOutput() { // If output is not acheiveable
+		fmt.Println("impossible")
+	} else {
+		output() // Print output in correct format
+	}
+}
+
+func same_ages(arr []Manatee) [][]Manatee {
+	var repeatAge []int
+	for _, value := range arr {
+		age := value.age
+		count := 0
+		for _, val2 := range arr {
+			if age == val2.age {
+				count++
+			}
+		}
+
+		if count >= 1 && !contains(age, repeatAge) {
+			repeatAge = append(repeatAge, age)
+		}
+	}
+	fmt.Println("repeat")
+	fmt.Println(repeatAge)
+	manateeRepeatAge := find_manatee(repeatAge, arr)
+	return manateeRepeatAge
+}
+
+func find_manatee(repeatAgeIntArr []int, manateeArr []Manatee) [][]Manatee {
+	var manateeRepeatAge [][]Manatee
+	for _, age := range repeatAgeIntArr {
+		var individualAge []Manatee
+		for _, manatee := range manateeArr {
+			if age == manatee.age {
+				individualAge = append(individualAge, manatee)
+			}
+		}
+		manateeRepeatAge = append(manateeRepeatAge, individualAge)
+	}
+	return manateeRepeatAge
+}
+
+func main() {
+	takeInput() // Call take input function
+	processManatees()
 }
