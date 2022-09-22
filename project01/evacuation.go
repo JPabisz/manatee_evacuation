@@ -226,30 +226,6 @@ func retakeInput() []string {
 }
 
 /*
-	//TODO Convert to main method rather than having a "driver" method. Now that everything
-	is consolidated into the same file.
-*/
-
-func processManatees() {
-	femaleArray = sortByAge(femaleArray) // Sort array based on age of manatees
-	maleArray = sortByAge(maleArray)     // Sort array based on age of manatees
-	fmt.Println("Sort based on age.")
-	fmt.Println(femaleArray)
-	fmt.Println(maleArray)
-
-	// Find manatees of the same age
-	mra := same_ages(maleArray)
-	fra := same_ages(femaleArray)
-	fmt.Print("female: ")
-	fmt.Println(fra)
-	fmt.Print("male: ")
-	fmt.Println(mra)
-
-	// TODO MAYBE delete
-	// organizeBasedOnSize() // Compute the output and arrange manatees accordingly
-}
-
-/*
 	Function sorts each manatee array based on the ages of the manatees. If
 	ages are the same the returned array will be of
 */
@@ -344,6 +320,18 @@ func find_manatee(repeatAgeIntArr []int, manateeArr []Manatee) [][]Manatee {
 }
 
 func main() {
-	takeInput() // Call take input function
-	processManatees()
+	takeInput()                          // Call take input function
+	femaleArray = sortByAge(femaleArray) // Sort array based on age of manatees
+	maleArray = sortByAge(maleArray)     // Sort array based on age of manatees
+	fmt.Println("Sort based on age.")
+	fmt.Println(femaleArray)
+	fmt.Println(maleArray)
+
+	// Find manatees of the same age
+	mra := same_ages(maleArray)
+	fra := same_ages(femaleArray)
+	fmt.Print("female: ")
+	fmt.Println(fra)
+	fmt.Print("male: ")
+	fmt.Println(mra)
 }
