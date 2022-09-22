@@ -263,7 +263,7 @@ func isValidOutput2(manatee []Manatee) bool {
 		return false
 	} else {
 		for i := 0; i < numberInEachRow; i++ {
-			if femaleArray[i].size <= maleArray[i].size {
+			if manatee[i].size <= maleArray[i].size {
 				return false
 			}
 		}
