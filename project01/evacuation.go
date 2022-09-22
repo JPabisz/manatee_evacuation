@@ -258,35 +258,24 @@ ensure that the back row is not smaller than the front row. If so, return
 false.
 */
 
-func isValidOutput2(manatee []Manatee) bool {
-	if !isSorted(manatee) {
+func isValidOutput(male []Manatee, female []Manatee) bool {
+	if !isSorted(male) {
+		return false
+	}else if !isSorted(female) {
 		return false
 	} else {
 		for i := 0; i < numberInEachRow; i++ {
-			if manatee[i].size <= maleArray[i].size {
+			if male[i].size >= female[i].size {
 				return false
 			}
 		}
 	}
-	return true
-}
-
-func isValidOutput() bool {
-	if !isSorted(maleArray) || !isSorted(femaleArray) {
-		return false
-	} else {
-		for i := 0; i < numberInEachRow; i++ {
-			if femaleArray[i].size <= maleArray[i].size {
-				return false
-			}
-		}
-	}
-
+	fmt.Println("true")
 	return true
 }
 
 func isSorted(arr []Manatee) bool {
-	for i := 0; i < len(arr); i++ {
+	for i := 0; i < len(arr) - 1; i++ {
 		if arr[i].age > arr[i+1].age {
 			return false
 		}
@@ -294,87 +283,19 @@ func isSorted(arr []Manatee) bool {
 	return true
 }
 
-func output2(mantee []Manatee) {
-	for _, value := range mantee {
+func output(male []Manatee, female []Manatee) {
+	for _, value := range female {
 		fmt.Print(value.number)
 		fmt.Print(" ")
 	}
 	fmt.Print("\n")
-	for _, value := range maleArray {
-		fmt.Print(value.number)
-		fmt.Print(" ")
-	}
-	fmt.Print("\n")
-}
-
-// Prints the output in desired format.
-
-func output() {
-	for _, value := range femaleArray {
-		fmt.Print(value.number)
-		fmt.Print(" ")
-	}
-	fmt.Print("\n")
-	for _, value := range maleArray {
+	for _, value := range male {
 		fmt.Print(value.number)
 		fmt.Print(" ")
 	}
 	fmt.Print("\n")
 }
 
-// TODO delete
-
-// func organizeBasedOnSize() {
-// 	for i := 0; i < numberInEachRow; i++ {
-// 		if !isValidOutput() {
-// 			fmt.Println(i)
-// 		} else {
-// 			break
-// 		}
-// 	}
-
-// 	if !isValidOutput() { // If output is not acheiveable
-// 		fmt.Println("impossible")
-// 	} else {
-// 		output() // Print output in correct format
-// 	}
-// }
-
-/*
-	Function handles processing an array to find same age values in the Manatee
-	object.
-*/
-
-func occurence_overview(manateeArray []Manatee) [][]Manatee {
-	var repeatAge []int // Temp array
-	var manateeRepeatAge [][]Manatee
-
-	for _, value := range manateeArray {
-		age := value.age
-		count := 0
-		for _, val2 := range manateeArray {
-			if age == val2.age {
-				count++
-			}
-		}
-
-		if count >= 1 && !contains(age, repeatAge) {
-			repeatAge = append(repeatAge, age)
-		}
-	}
-
-	for _, age := range repeatAge {
-		var individualAge []Manatee
-		for _, manatee := range manateeArray {
-			if age == manatee.age {
-				individualAge = append(individualAge, manatee)
-			}
-		}
-		manateeRepeatAge = append(manateeRepeatAge, individualAge)
-	}
-
-	return manateeRepeatAge
-}
 
 func factorial(n int) (result int) {
 	if n > 0 {
@@ -384,56 +305,101 @@ func factorial(n int) (result int) {
 	return 1
 }
 
-func permutate(sameAge []Manatee) {
-	var n = len(sameAge) - 1
-	var i, j int
-	var searchSpace [][]Manatee
-	var numOfPerms = factorial(len(sameAge))
-	for c := 1; c < numOfPerms; c++ { // 3! = 6:
-		i = n - 1
-		j = n
-		for sameAge[i].number > sameAge[i+1].number {
-			i--
-		}
-		for sameAge[j].number < sameAge[i].number {
-			j--
-		}
-		sameAge[i], sameAge[j] = sameAge[j], sameAge[i]
-		j = n
-		i += 1
-		for i < j {
-			sameAge[i], sameAge[j] = sameAge[j], sameAge[i]
-			i++
-			j--
-		}
-		searchSpace = append(searchSpace, sameAge)
-	}
-	possibleTest(searchSpace)
+
+func permutateM() {
+     var n = len(maleArray) - 1
+     var array []Manatee = maleArray
+     var females []Manatee = sortByAge(femaleArray)
+     if isValidOutput(array, females) {
+                 output(array, females)
+                 return
+     }
+     var i, j int
+     var numOfPerms = factorial(len(maleArray))
+     //searchSpace := [][]Manatee{}
+     for c := 1; c < numOfPerms; c++ { // 3! = 6:
+            i = n - 1
+            j = n
+            //fmt.Println(array)
+            
+            /*if isValidOutput2(array, array2) {
+                 output2(array)
+                 return
+            }*/
+            for array[i].number > array[i+1].number {
+                    i--
+            }
+            for array[j].number < array[i].number {
+                    j--
+            }
+            array[i], array[j] = array[j], array[i]
+            
+            j = n
+            i += 1
+            for i < j {
+                    array[i], array[j] = array[j], array[i]
+                    i++
+                    j--
+            }
+            if isValidOutput(array, females) {
+                 output(array, females)
+                 return
+            }
+            
+    }
+    permutateF()
+
 }
 
-func possibleTest(manatees [][]Manatee) {
-	for _, manatee := range manatees {
-		if isValidOutput2(manatee) {
-			output2(manatee)
-		}
-	}
-	fmt.Println("impossible")
+func permutateF() {
+     var n = len(femaleArray) - 1
+     var array []Manatee = femaleArray
+     var males []Manatee = sortByAge(maleArray)
+     if isValidOutput(males, array) {
+                 output(males, array)
+                 return
+     }
+     var i, j int
+     var numOfPerms = factorial(len(femaleArray))
+     //searchSpace := [][]Manatee{}
+     for c := 1; c < numOfPerms; c++ { // 3! = 6:
+            i = n - 1
+            j = n
+            //fmt.Println(array)
+            
+            /*if isValidOutput2(array, array2) {
+                 output2(array)
+                 return
+            }*/
+            for array[i].number > array[i+1].number {
+                    i--
+            }
+            for array[j].number < array[i].number {
+                    j--
+            }
+            array[i], array[j] = array[j], array[i]
+            
+            j = n
+            i += 1
+            for i < j {
+                    array[i], array[j] = array[j], array[i]
+                    i++
+                    j--
+            }
+            if isValidOutput(males, array) {
+                 output(males, array)
+                 return
+            }
+            
+    }
+    fmt.Println("impossible")
+
 }
 
 // Main driver for the program. Calls all necessary functions.
 
 func main() {
 	takeInput() // Call take input function
-	// femaleArray = sortByAge(femaleArray) // Sort array based on age of manatees
-	maleArray = sortByAge(maleArray) // Sort array based on age of manatees
-	fmt.Println("Sort based on age.")
-	fmt.Println(femaleArray)
-	fmt.Println(maleArray)
-
-	mra := occurence_overview(maleArray)
-	fra := occurence_overview(femaleArray)
-	fmt.Print("female: ")
-	fmt.Println(fra)
-	fmt.Print("male: ")
-	fmt.Println(mra)
+	permutateM()
 }
+
