@@ -41,20 +41,20 @@ func sortByAge(arr []Manatee) []Manatee {
 	return arr
 }
 
-func sortBySize(arr [][]Manatee) {
-	male := arr[0]
-	female := arr[1]
+// func sortBySize(arr [][]Manatee) {
+// 	male := arr[0]
+// 	female := arr[1]
 
-	sort.SliceStable(male[:], func(i, j int) bool {
-		return male[i].size < male[j].size
-	})
-	return male
+// 	sort.SliceStable(male[:], func(i, j int) bool {
+// 		return male[i].size < male[j].size
+// 	})
+// 	return male
 
-	sort.SliceStable(female[:], func(i, j int) bool {
-		return female[i].size > female[j].size
-	})
-	return female
-}
+// 	sort.SliceStable(female[:], func(i, j int) bool {
+// 		return female[i].size > female[j].size
+// 	})
+// 	return female
+// }
 
 func contains(val int, arr []int) bool {
 	for _, value := range arr {
@@ -111,7 +111,7 @@ func organizeBasedOnSize() {
 	}
 
 	if !isValidOutput() { // If output is not acheiveable
-		fmt.Println("Impossible")
+		fmt.Println("impossible")
 	} else {
 		output() // Print output in correct format
 	}
@@ -128,7 +128,7 @@ func same_ages(arr []Manatee) [][]Manatee {
 			}
 		}
 
-		if count > 1 && !contains(age, repeatAge) {
+		if count >= 1 && !contains(age, repeatAge) {
 			repeatAge = append(repeatAge, age)
 		}
 	}
@@ -150,12 +150,4 @@ func find_manatee(repeatAgeIntArr []int, manateeArr []Manatee) [][]Manatee {
 		manateeRepeatAge = append(manateeRepeatAge, individualAge)
 	}
 	return manateeRepeatAge
-}
-
-func proc() {
-	for i := 0; i < numberInEachRow; i++ {
-		if maleArray[i].size > femaleArray[i].size {
-
-		}
-	}
 }

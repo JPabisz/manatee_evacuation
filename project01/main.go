@@ -37,6 +37,16 @@ func takeInput() {
 	// Delete later:
 	fmt.Print("Enter number of manatees per row: ")
 	fmt.Scan(&numberInEachRow) // Take input for number of manatees
+	if numberInEachRow > 5 || numberInEachRow < 1 {
+		isValid := false
+		for !isValid {
+			fmt.Print("Invalid Input. Enter number of manatees per row: ")
+			fmt.Scan(&numberInEachRow) // Take input for number of manatees
+			if numberInEachRow <= 5 || numberInEachRow >= 1 {
+				isValid = true
+			}
+		}
+	}
 
 	reader := bufio.NewReader(os.Stdin)
 
