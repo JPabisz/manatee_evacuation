@@ -237,6 +237,11 @@ func sortByAge(arr []Manatee) []Manatee {
 	return arr
 }
 
+/*
+	Contains function checks to see if a value is within an array of
+	manatees.
+*/
+
 func contains(val int, arr []int) bool {
 	for _, value := range arr {
 		if value == val {
@@ -246,6 +251,11 @@ func contains(val int, arr []int) bool {
 	return false
 }
 
+/*
+Function checks to see if the output is valid. Iterates through each
+Manatee object and checks the size to ensure that the back row is not
+smaller than the front row. If so, return false.
+*/
 func isValidOutput() bool {
 	for i := 0; i < numberInEachRow; i++ {
 		if femaleArray[i].size <= maleArray[i].size {
@@ -254,6 +264,8 @@ func isValidOutput() bool {
 	}
 	return true
 }
+
+// Prints the output in desired format.
 
 func output() {
 	for _, value := range femaleArray {
@@ -267,6 +279,8 @@ func output() {
 	}
 	fmt.Print("\n")
 }
+
+// TODO delete
 
 func organizeBasedOnSize() {
 	for i := 0; i < numberInEachRow; i++ {
@@ -284,12 +298,19 @@ func organizeBasedOnSize() {
 	}
 }
 
-func same_ages(arr []Manatee) [][]Manatee {
-	var repeatAge []int
-	for _, value := range arr {
+/*
+	Function handles processing an array to find same age values in the Manatee
+	object.
+*/
+
+func occurence_overview(manateeArray []Manatee) [][]Manatee {
+	var repeatAge []int // Temp array
+	var manateeRepeatAge [][]Manatee
+
+	for _, value := range manateeArray {
 		age := value.age
 		count := 0
-		for _, val2 := range arr {
+		for _, val2 := range manateeArray {
 			if age == val2.age {
 				count++
 			}
@@ -299,25 +320,21 @@ func same_ages(arr []Manatee) [][]Manatee {
 			repeatAge = append(repeatAge, age)
 		}
 	}
-	fmt.Println("repeat")
-	fmt.Println(repeatAge)
-	manateeRepeatAge := find_manatee(repeatAge, arr)
-	return manateeRepeatAge
-}
 
-func find_manatee(repeatAgeIntArr []int, manateeArr []Manatee) [][]Manatee {
-	var manateeRepeatAge [][]Manatee
-	for _, age := range repeatAgeIntArr {
+	for _, age := range repeatAge {
 		var individualAge []Manatee
-		for _, manatee := range manateeArr {
+		for _, manatee := range manateeArray {
 			if age == manatee.age {
 				individualAge = append(individualAge, manatee)
 			}
 		}
 		manateeRepeatAge = append(manateeRepeatAge, individualAge)
 	}
+
 	return manateeRepeatAge
 }
+
+// Main driver for the program. Calls all necessary functions.
 
 func main() {
 	takeInput()                          // Call take input function
@@ -327,9 +344,8 @@ func main() {
 	fmt.Println(femaleArray)
 	fmt.Println(maleArray)
 
-	// Find manatees of the same age
-	mra := same_ages(maleArray)
-	fra := same_ages(femaleArray)
+	mra := occurence_overview(maleArray)
+	fra := occurence_overview(femaleArray)
 	fmt.Print("female: ")
 	fmt.Println(fra)
 	fmt.Print("male: ")
