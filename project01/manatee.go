@@ -23,7 +23,15 @@ func processManatees() {
 	fmt.Println("Sort based on age.")
 	fmt.Println(femaleArray)
 	fmt.Println(maleArray)
-	organizeBasedOnSize() // Compute the output and arrange manatees accordingly
+
+	// Find manatees of the same age
+	mra := same_ages(maleArray)
+	fra := same_ages(femaleArray)
+	fmt.Print("female: ")
+	fmt.Println(fra)
+	fmt.Print("male: ")
+	fmt.Println(mra)
+	// organizeBasedOnSize() // Compute the output and arrange manatees accordingly
 }
 
 func sortByAge(arr []Manatee) []Manatee {
@@ -33,34 +41,28 @@ func sortByAge(arr []Manatee) []Manatee {
 	return arr
 }
 
-// The following function interface lets us sort the array of manatees by age then size.
-// after the Manatees are sorted you just have to check if there is a larger manatee in front of a smaller one.
+func sortBySize(arr [][]Manatee) {
+	male := arr[0]
+	female := arr[1]
 
-type byAgeFirst []Manatee
+	sort.SliceStable(male[:], func(i, j int) bool {
+		return male[i].size < male[j].size
+	})
+	return male
 
-func (manatees byAgeFirst) Len() int      { return len(manatees) }
-func (manatees byAgeFirst) Swap(i, j int) { manatees[i], manatees[j] = manatees[j], manatees[i] }
-func (manatees byAgeFirst) Less(i, j int) bool {
-	if manatees[i].age != manatees[j].age {
-		return manatees[i].age < manatees[j].age
-	}
-	return manatees[i].size < manatees[j].size
+	sort.SliceStable(female[:], func(i, j int) bool {
+		return female[i].size > female[j].size
+	})
+	return female
 }
 
-func organizeBasedOnSize() {
-	for i := 0; i < numberInEachRow; i++ {
-		if !isValidOutput() {
-			fmt.Println(i)
-		} else {
-			break
+func contains(val int, arr []int) bool {
+	for _, value := range arr {
+		if value == val {
+			return true
 		}
 	}
-
-	if !isValidOutput() { // If output is not acheiveable
-		fmt.Println("Impossible")
-	} else {
-		output() // Print output in correct format
-	}
+	return false
 }
 
 func isValidOutput() bool {
@@ -83,4 +85,77 @@ func output() {
 		fmt.Print(" ")
 	}
 	fmt.Print("\n")
+}
+
+// The following function interface lets us sort the array of manatees by age then size.
+// after the Manatees are sorted you just have to check if there is a larger manatee in front of a smaller one.
+
+// type byAgeFirst []Manatee
+
+// func (manatees byAgeFirst) Len() int      { return len(manatees) }
+// func (manatees byAgeFirst) Swap(i, j int) { manatees[i], manatees[j] = manatees[j], manatees[i] }
+// func (manatees byAgeFirst) Less(i, j int) bool {
+// 	if manatees[i].age != manatees[j].age {
+// 		return manatees[i].age < manatees[j].age
+// 	}
+// 	return manatees[i].size < manatees[j].size
+// }
+
+func organizeBasedOnSize() {
+	for i := 0; i < numberInEachRow; i++ {
+		if !isValidOutput() {
+			fmt.Println(i)
+		} else {
+			break
+		}
+	}
+
+	if !isValidOutput() { // If output is not acheiveable
+		fmt.Println("Impossible")
+	} else {
+		output() // Print output in correct format
+	}
+}
+
+func same_ages(arr []Manatee) [][]Manatee {
+	var repeatAge []int
+	for _, value := range arr {
+		age := value.age
+		count := 0
+		for _, val2 := range arr {
+			if age == val2.age {
+				count++
+			}
+		}
+
+		if count > 1 && !contains(age, repeatAge) {
+			repeatAge = append(repeatAge, age)
+		}
+	}
+	fmt.Println("repeat")
+	fmt.Println(repeatAge)
+	manateeRepeatAge := find_manatee(repeatAge, arr)
+	return manateeRepeatAge
+}
+
+func find_manatee(repeatAgeIntArr []int, manateeArr []Manatee) [][]Manatee {
+	var manateeRepeatAge [][]Manatee
+	for _, age := range repeatAgeIntArr {
+		var individualAge []Manatee
+		for _, manatee := range manateeArr {
+			if age == manatee.age {
+				individualAge = append(individualAge, manatee)
+			}
+		}
+		manateeRepeatAge = append(manateeRepeatAge, individualAge)
+	}
+	return manateeRepeatAge
+}
+
+func proc() {
+	for i := 0; i < numberInEachRow; i++ {
+		if maleArray[i].size > femaleArray[i].size {
+
+		}
+	}
 }
