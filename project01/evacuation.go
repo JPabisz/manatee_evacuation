@@ -258,6 +258,19 @@ ensure that the back row is not smaller than the front row. If so, return
 false.
 */
 
+func isValidOutput2(manatee []Manatee) bool {
+	if !isSorted(manatee) {
+		return false
+	} else {
+		for i := 0; i < numberInEachRow; i++ {
+			if femaleArray[i].size <= maleArray[i].size {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func isValidOutput() bool {
 	if !isSorted(maleArray) || !isSorted(femaleArray) {
 		return false
@@ -279,6 +292,19 @@ func isSorted(arr []Manatee) bool {
 		}
 	}
 	return true
+}
+
+func output2(mantee []Manatee) {
+	for _, value := range mantee {
+		fmt.Print(value.number)
+		fmt.Print(" ")
+	}
+	fmt.Print("\n")
+	for _, value := range maleArray {
+		fmt.Print(value.number)
+		fmt.Print(" ")
+	}
+	fmt.Print("\n")
 }
 
 // Prints the output in desired format.
@@ -350,50 +376,48 @@ func occurence_overview(manateeArray []Manatee) [][]Manatee {
 	return manateeRepeatAge
 }
 
-func factorial(n int)(result int) {
-     if (n > 0) {
-         result = n * factorial(n-1)
-         return result
-     }
-     return 1
+func factorial(n int) (result int) {
+	if n > 0 {
+		result = n * factorial(n-1)
+		return result
+	}
+	return 1
 }
 
-
 func permutate(sameAge []Manatee) {
-     var n = len(sameAge) - 1
-     var i, j int
-     var searchSpace [][]Manatee
-     var numOfPerms = factorial(len(sameAge))
-     for c := 1; c < numOfPerms; c++ { // 3! = 6:
-            i = n - 1
-            j = n
-            for sameAge[i].number > sameAge[i+1].number {
-                    i--
-            }
-            for sameAge[j].number < sameAge[i].number {
-                    j--
-            }
-            sameAge[i], sameAge[j] = sameAge[j], sameAge[i]
-            j = n
-            i += 1
-            for i < j {
-                    sameAge[i], sameAge[j] = sameAge[j], sameAge[i]
-                    i++
-                    j--
-            }
-            searchSpace = append(searchSpace, sameAge)
-    }
-    possibleTest(searchSpace)
+	var n = len(sameAge) - 1
+	var i, j int
+	var searchSpace [][]Manatee
+	var numOfPerms = factorial(len(sameAge))
+	for c := 1; c < numOfPerms; c++ { // 3! = 6:
+		i = n - 1
+		j = n
+		for sameAge[i].number > sameAge[i+1].number {
+			i--
+		}
+		for sameAge[j].number < sameAge[i].number {
+			j--
+		}
+		sameAge[i], sameAge[j] = sameAge[j], sameAge[i]
+		j = n
+		i += 1
+		for i < j {
+			sameAge[i], sameAge[j] = sameAge[j], sameAge[i]
+			i++
+			j--
+		}
+		searchSpace = append(searchSpace, sameAge)
+	}
+	possibleTest(searchSpace)
 }
 
 func possibleTest(manatees [][]Manatee) {
-     
-     for _,manatee := range manatees {
-          if isValid(manatee) {
-               output(manatee)
-          }
-     }
-     fmt.Println("impossible")
+	for _, manatee := range manatees {
+		if isValidOutput2(manatee) {
+			output2(manatee)
+		}
+	}
+	fmt.Println("impossible")
 }
 
 // Main driver for the program. Calls all necessary functions.
