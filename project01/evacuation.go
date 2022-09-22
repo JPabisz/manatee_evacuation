@@ -252,13 +252,29 @@ func contains(val int, arr []int) bool {
 }
 
 /*
-Function checks to see if the output is valid. Iterates through each
-Manatee object and checks the size to ensure that the back row is not
-smaller than the front row. If so, return false.
+Function checks to see if the output is valid. Checks to see if the arrays are
+sorted. If so, iterates through each Manatee object and checks the size to
+ensure that the back row is not smaller than the front row. If so, return
+false.
 */
+
 func isValidOutput() bool {
-	for i := 0; i < numberInEachRow; i++ {
-		if femaleArray[i].size <= maleArray[i].size {
+	if !isSorted(maleArray) || !isSorted(femaleArray) {
+		return false
+	} else {
+		for i := 0; i < numberInEachRow; i++ {
+			if femaleArray[i].size <= maleArray[i].size {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
+func isSorted(arr []Manatee) bool {
+	for i := 0; i < len(arr); i++ {
+		if arr[i].age > arr[i+1].age {
 			return false
 		}
 	}
