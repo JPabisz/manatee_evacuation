@@ -298,21 +298,21 @@ func output() {
 
 // TODO delete
 
-func organizeBasedOnSize() {
-	for i := 0; i < numberInEachRow; i++ {
-		if !isValidOutput() {
-			fmt.Println(i)
-		} else {
-			break
-		}
-	}
+// func organizeBasedOnSize() {
+// 	for i := 0; i < numberInEachRow; i++ {
+// 		if !isValidOutput() {
+// 			fmt.Println(i)
+// 		} else {
+// 			break
+// 		}
+// 	}
 
-	if !isValidOutput() { // If output is not acheiveable
-		fmt.Println("impossible")
-	} else {
-		output() // Print output in correct format
-	}
-}
+// 	if !isValidOutput() { // If output is not acheiveable
+// 		fmt.Println("impossible")
+// 	} else {
+// 		output() // Print output in correct format
+// 	}
+// }
 
 /*
 	Function handles processing an array to find same age values in the Manatee
@@ -353,9 +353,9 @@ func occurence_overview(manateeArray []Manatee) [][]Manatee {
 // Main driver for the program. Calls all necessary functions.
 
 func main() {
-	takeInput()                          // Call take input function
-	femaleArray = sortByAge(femaleArray) // Sort array based on age of manatees
-	maleArray = sortByAge(maleArray)     // Sort array based on age of manatees
+	takeInput() // Call take input function
+	// femaleArray = sortByAge(femaleArray) // Sort array based on age of manatees
+	maleArray = sortByAge(maleArray) // Sort array based on age of manatees
 	fmt.Println("Sort based on age.")
 	fmt.Println(femaleArray)
 	fmt.Println(maleArray)
