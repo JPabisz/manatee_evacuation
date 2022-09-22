@@ -151,3 +151,31 @@ func find_manatee(repeatAgeIntArr []int, manateeArr []Manatee) [][]Manatee {
 	}
 	return manateeRepeatAge
 }
+
+func permutate() {
+     var a = []Manatee{{1,"male",3,4}, {2,"male",2,4},{3,"male",4,4}}
+     fmt.Println(a)
+     var n = len(a) - 1
+     var i, j int
+     for c := 1; c < 6; c++ { // 3! = 6:
+            i = n - 1
+            j = n
+            for a[i].number > a[i+1].number {
+                    i--
+            }
+            for a[j].number < a[i].number {
+                    j--
+            }
+            a[i], a[j] = a[j], a[i]
+            j = n
+            i += 1
+            for i < j {
+                    a[i], a[j] = a[j], a[i]
+                    i++
+                    j--
+            }
+            fmt.Println(a)
+    }
+}
+
+
