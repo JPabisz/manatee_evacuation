@@ -134,9 +134,6 @@ func takeInput() {
 			}
 		}
 	}
-	fmt.Println("Inputted values, input order.")
-	fmt.Println(femaleArray) // Delete later, testing purposes.
-	fmt.Println(maleArray)
 }
 
 /*
@@ -274,7 +271,6 @@ func isValidOutput(male []Manatee, female []Manatee) bool {
 			}
 		}
 	}
-	fmt.Println("true")
 	return true
 }
 
@@ -387,7 +383,7 @@ func permutateF() {
 	var i, j int
 	// Calculate number of permutations using factorial function.
 	var numOfPerms = factorial(len(femaleArray))
-	for c := 1; c < numOfPerms; c++ {
+	for p := 1; p < numOfPerms; p++ {
 		i = n - 1
 		j = n
 		for array[i].number > array[i+1].number {
