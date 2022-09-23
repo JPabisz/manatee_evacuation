@@ -3,7 +3,7 @@
  * Author: James Pabisz, jpabisz2020@my.fit.edu
  * Course: CSE 4250, Fall 2022
  * Project: Proj1, Manatee Evacuation
- * Implementation: go version 1.19.1 gccgo darwin_arm64
+ * Implementation: go version go 1.19.1 darwin/arm64
  */
 
 package main
@@ -197,6 +197,10 @@ func isValidInput(arr []string) bool {
 		if err != nil {
 			return false
 		}
+
+		// if val <= 1 || val >= 1,000,000 {
+		// 	return false
+		// }
 	}
 	return true
 }
@@ -261,7 +265,7 @@ false.
 func isValidOutput(male []Manatee, female []Manatee) bool {
 	if !isSorted(male) {
 		return false
-	}else if !isSorted(female) {
+	} else if !isSorted(female) {
 		return false
 	} else {
 		for i := 0; i < numberInEachRow; i++ {
@@ -274,14 +278,24 @@ func isValidOutput(male []Manatee, female []Manatee) bool {
 	return true
 }
 
+/*
+Function hecks to see if the manatees in an array given as a parameter
+is in ascending order. Compares current value to the next until it
+either fails or passes. Returns a boolean.
+*/
 func isSorted(arr []Manatee) bool {
-	for i := 0; i < len(arr) - 1; i++ {
+	for i := 0; i < len(arr)-1; i++ {
 		if arr[i].age > arr[i+1].age {
 			return false
 		}
 	}
 	return true
 }
+
+/*
+	Prints the rows of manatees both male and female. Female in the bacl
+	male in the front.
+*/
 
 func output(male []Manatee, female []Manatee) {
 	for _, value := range female {
@@ -296,6 +310,9 @@ func output(male []Manatee, female []Manatee) {
 	fmt.Print("\n")
 }
 
+/*
+	Cacualtes the factorial of an integer given as a paramter.
+*/
 
 func factorial(n int) (result int) {
 	if n > 0 {
@@ -305,101 +322,108 @@ func factorial(n int) (result int) {
 	return 1
 }
 
+/*
+	Function calculates all possible permutations of the male manatees.
+	After each permutation check to see if permutation is in a valid
+	order such that it fits the criteria. Call the function to calculate
+	all permutations of female manatees.
+*/
 
 func permutateM() {
-     var n = len(maleArray) - 1
-     var array []Manatee = maleArray
-     var females []Manatee = sortByAge(femaleArray)
-     if isValidOutput(array, females) {
-                 output(array, females)
-                 return
-     }
-     var i, j int
-     var numOfPerms = factorial(len(maleArray))
-     //searchSpace := [][]Manatee{}
-     for c := 1; c < numOfPerms; c++ { // 3! = 6:
-            i = n - 1
-            j = n
-            //fmt.Println(array)
-            
-            /*if isValidOutput2(array, array2) {
-                 output2(array)
-                 return
-            }*/
-            for array[i].number > array[i+1].number {
-                    i--
-            }
-            for array[j].number < array[i].number {
-                    j--
-            }
-            array[i], array[j] = array[j], array[i]
-            
-            j = n
-            i += 1
-            for i < j {
-                    array[i], array[j] = array[j], array[i]
-                    i++
-                    j--
-            }
-            if isValidOutput(array, females) {
-                 output(array, females)
-                 return
-            }
-            
-    }
-    permutateF()
+	var n = len(maleArray) - 1
+	var array []Manatee = maleArray
+	var females []Manatee = sortByAge(femaleArray)
+	if isValidOutput(array, females) {
+		output(array, females)
+		return
+	}
+	var i, j int
+
+	// Calculate number of permutations
+	var numOfPerms = factorial(len(maleArray))
+	for c := 1; c < numOfPerms; c++ {
+		i = n - 1
+		j = n
+
+		for array[i].number > array[i+1].number {
+			i--
+		}
+		for array[j].number < array[i].number {
+			j--
+		}
+		array[i], array[j] = array[j], array[i]
+
+		j = n
+		i += 1
+		for i < j {
+			array[i], array[j] = array[j], array[i]
+			i++
+			j--
+		}
+		if isValidOutput(array, females) { // Check for valid output
+			output(array, females)
+			return // terminate function if valid output is reached
+		}
+
+	}
+
+	permutateF() // Call permutate function for females
 
 }
 
+/*
+Calculate all of the permutations of the female manatee array. After
+each permutation check to see if the ordering is valid. If not try
+another permutation.
+*/
 func permutateF() {
-     var n = len(femaleArray) - 1
-     var array []Manatee = femaleArray
-     var males []Manatee = sortByAge(maleArray)
-     if isValidOutput(males, array) {
-                 output(males, array)
-                 return
-     }
-     var i, j int
-     var numOfPerms = factorial(len(femaleArray))
-     //searchSpace := [][]Manatee{}
-     for c := 1; c < numOfPerms; c++ { // 3! = 6:
-            i = n - 1
-            j = n
-            //fmt.Println(array)
-            
-            /*if isValidOutput2(array, array2) {
-                 output2(array)
-                 return
-            }*/
-            for array[i].number > array[i+1].number {
-                    i--
-            }
-            for array[j].number < array[i].number {
-                    j--
-            }
-            array[i], array[j] = array[j], array[i]
-            
-            j = n
-            i += 1
-            for i < j {
-                    array[i], array[j] = array[j], array[i]
-                    i++
-                    j--
-            }
-            if isValidOutput(males, array) {
-                 output(males, array)
-                 return
-            }
-            
-    }
-    fmt.Println("impossible")
+	var n = len(femaleArray) - 1
+	var array []Manatee = femaleArray
+	var males []Manatee = sortByAge(maleArray)
+	if isValidOutput(males, array) {
+		output(males, array)
+		return
+	}
+	var i, j int
+	// Calculate number of permutations using factorial function.
+	var numOfPerms = factorial(len(femaleArray))
+	for c := 1; c < numOfPerms; c++ {
+		i = n - 1
+		j = n
+		for array[i].number > array[i+1].number {
+			i--
+		}
+		for array[j].number < array[i].number {
+			j--
+		}
+		array[i], array[j] = array[j], array[i]
+
+		j = n
+		i += 1
+		for i < j {
+			array[i], array[j] = array[j], array[i]
+			i++
+			j--
+		}
+		// Check to see if output is valid.
+		if isValidOutput(males, array) {
+			output(males, array)
+			return // Terminate the function if output is found
+		}
+
+	}
+
+	/*
+		If not combination is found to work it is impossible to order them
+		in such a way it fits the criteria
+	*/
+	fmt.Println("impossible")
 
 }
 
 // Main driver for the program. Calls all necessary functions.
 
 func main() {
-	takeInput() // Call take input function
-	permutateM()
+	takeInput()  // Call take input function
+	permutateM() // Call permutate function for males
 }
-
